@@ -2,23 +2,26 @@
 
 import io
 
-
-f = io.open('src/sherlock_small.txt', mode='r')
-lst = []
-
-testbook = f.read()
+test1 = ['words', 'are', 'in', 'this', 'list']
+test3 = " ".join(test1)
 
 
-def test_is_open():
-    if f:
-        print(f)
-        return f
+def test_create_dict():
+    from trigrams import create_dict
+    assert len(create_dict(test1)) == 3
 
 
-def test_testbook():
-	from src.trigrams import testbook 
-	assert testbook is not None
+def test_make_snippet():
+    from trigrams import make_snippet
+    from trigrams import create_dict
+    assert type(make_snippet(test1, create_dict(test1), 1)) == str
 
-def test_islist():
-	from src.trigrams import wordlst
-	assert type(lst) == list
+
+def test_output_file():
+    from trigrams import output_file
+    g = io.open("src/output.txt", mode='w')
+    g.write("")
+    g.close()
+    output_file(test3)
+    fileguts = io.open("src/output.txt", mode='r').read()
+    assert fileguts is not None

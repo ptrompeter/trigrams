@@ -5,9 +5,13 @@ import random
 import math
 import sys
 
-f = io.open(sys.argv[1])
-long_list = f.read().split()
-f.close()
+
+def get_text(filename):
+    """Open, read, and return the contents from a text file."""
+    f = io.open(filename)
+    long_list = f.read().split()
+    f.close()
+    return long_list
 
 
 def create_dict(lst):
@@ -17,10 +21,9 @@ def create_dict(lst):
         tri.setdefault((lst[i], lst[i + 1]), []).append(lst[i + 2])
     return tri
 
-long_dict = create_dict(long_list)
 
 def make_snippet(lst, dict, sniplen):
-    """Return snippet based upon trigram analysis of source text given snippet length."""
+    """Return snippet based upon trigram analysis of source text."""
     rand = math.floor(((len(lst) - 2) * random.random()))
     snippet = []
     snippet.append(lst[rand])
@@ -33,8 +36,6 @@ def make_snippet(lst, dict, sniplen):
     snippet = " ".join(snippet)
     return snippet
 
-snippet = make_snippet(long_list, long_dict, int(sys.argv[2]))
-
 
 def output_file(snippet):
     """Write an imput to src/output.txt."""
@@ -42,6 +43,16 @@ def output_file(snippet):
     f.write(snippet)
     f.close()
 
+
+def main(filename, sniplen):
+    """Generate a story in the src/output.txt file."""
+    long_dict = create_dict(get_text(sys.argv[1]))
+    textchunk = make_snippet(get_text(sys.argv[1]), long_dict, int(sys.argv[2]))
+    output_file(textchunk)
+    print(textchunk)
+    return textchunk
+
+
 if __name__ == '__main__':
     print(sys.argv)
-    output_file(snippet)
+    main(sys.argv[1], sys.argv[2])
