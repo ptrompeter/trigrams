@@ -4,7 +4,7 @@ import io
 
 
 f = io.open('src/sherlock_small.txt', mode='r')
-
+lst = []
 
 testbook = f.read()
 
@@ -16,5 +16,9 @@ def test_is_open():
 
 
 def test_testbook():
-    print(testbook)
-    return testbook
+	from src.trigrams import testbook 
+	assert testbook is not None
+
+def test_islist():
+	from src.trigrams import wordlst
+	assert type(lst) == list
